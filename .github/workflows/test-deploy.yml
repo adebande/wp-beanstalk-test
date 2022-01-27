@@ -52,15 +52,15 @@ jobs:
         run: | 
             aws elasticbeanstalk update-environment --environment-name Wpbeanstalktest-env --version-label "ver-${{ github.sha }}" \
             --option-settings \
-            OptionName=RDS_DB_NAME,Value='"$RDS_DB_NAME"' \
-            OptionName=RDS_USERNAME,Value='"$RDS_USERNAME"' \
-            OptionName=RDS_PASSWORD,Value='"$RDS_PASSWORD"' \
-            OptionName=RDS_HOSTNAME,Value='"$RDS_HOSTNAME"' \
-            OptionName=AUTH_KEY,Value='"$AUTH_KEY"' \
-            OptionName=SECURE_AUTH_KEY,Value='"$SECURE_AUTH_KEY"' \
-            OptionName=LOGGED_IN_KEY,Value='"$LOGGED_IN_KEY"' \
-            OptionName=NONCE_KEY,Value='"$NONCE_KEY"' \
-            OptionName=AUTH_SALT,Value='"$AUTH_SALT"' \
-            OptionName=SECURE_AUTH_SALT,Value='"$SECURE_AUTH_SALT"' \
-            OptionName=LOGGED_IN_SALT,Value='"$LOGGED_IN_SALT"' \
-            OptionName=NONCE_SALT,Value='"$NONCE_SALT"'
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=RDS_DB_NAME,Value='"$RDS_DB_NAME"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=RDS_USERNAME,Value='"$RDS_USERNAME"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=RDS_PASSWORD,Value='"$RDS_PASSWORD"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=RDS_HOSTNAME,Value='"$RDS_HOSTNAME"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=AUTH_KEY,Value='"$AUTH_KEY"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=SECURE_AUTH_KEY,Value='"$SECURE_AUTH_KEY"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=LOGGED_IN_KEY,Value='"$LOGGED_IN_KEY"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=NONCE_KEY,Value='"$NONCE_KEY"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=AUTH_SALT,Value='"$AUTH_SALT"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=SECURE_AUTH_SALT,Value='"$SECURE_AUTH_SALT"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=LOGGED_IN_SALT,Value='"$LOGGED_IN_SALT"' \
+            Namespace=aws:elasticbeanstalk:application:environment:,OptionName=NONCE_SALT,Value='"$NONCE_SALT"'
