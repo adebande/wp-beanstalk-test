@@ -1,27 +1,52 @@
-name: Deploy main
+name: deploy-to-eb
+
 on:
   push:
-    branches:
-    - main
+    branches: 
+      - test
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    environment: test
+
     steps:
+      - uses: actions/checkout@v2
 
-    - name: Checkout source code
-      uses: actions/checkout@v2
+      - name: Create ZIP deployment package
+        run: zip -r deploy_package.zip ./
 
-    - name: Generate deployment package
-      run: zip -r deploy.zip . -x '*.git*'
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: "us-east-1"
 
-    - name: Deploy to EB
-      uses: einaregilsson/beanstalk-deploy@v20
-      with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        application_name: wp-beanstalk-test
-        environment_name: Wpbeanstalktest-env
-        version_label: ${{ github.ref_name }}
-        region: eu-west-3
-        deployment_package: deploy.zip
+      - name: Upload package to S3 bucket
+        run: aws s3 cp deploy_package.zip s3://beanstalkpackage/
+
+      - name: Create new ElasticBeanstalk Application Version
+        run: |
+          aws elasticbeanstalk create-application-version \
+          --application-name wp-beanstalk-test \
+          --source-bundle S3Bucket="my-awesome-app-deploy-andrey",S3Key="deploy_package.zip" \
+          --version-label "ver-${{ github.sha }}" \
+          --description "commit-sha-${{ github.sha }}"
+
+      - name: Deploy new ElasticBeanstalk Application Version
+        run: | 
+            aws elasticbeanstalk update-environment --environment-name Wpbeanstalktest-env --version-label "ver-${{ github.sha }}" \
+            --option-settings \
+            OptionName=RDS_DB_NAME,Value="${{ secrets.RDS_DB_NAME }}" \
+            OptionName=RDS_USERNAME,Value="${{ secrets.RDS_USERNAME }}" \
+            OptionName=RDS_PASSWORD,Value="${{ secrets.RDS_PASSWORD }}" \
+            OptionName=RDS_HOSTNAME,Value="${{ secrets.RDS_HOSTNAME }}" \
+            OptionName=AUTH_KEY,Value="${{ secrets.AUTH_KEY }}" \
+            OptionName=SECURE_AUTH_KEY,Value="${{ secrets.SECURE_AUTH_KEY }}" \
+            OptionName=LOGGED_IN_KEY,Value="${{ secrets.LOGGED_IN_KEY }}" \
+            OptionName=NONCE_KEY,Value="${{ secrets.NONCE_KEY }}" \
+            OptionName=AUTH_SALT,Value="${{ secrets.AUTH_SALT }}" \
+            OptionName=SECURE_AUTH_SALT,Value="${{ secrets.SECURE_AUTH_SALT }}" \
+            OptionName=LOGGED_IN_SALT,Value="${{ secrets.LOGGED_IN_SALT }}" \
+            OptionName=NONCE_SALT,Value="${{ secrets.NONCE_SALT }}" \
