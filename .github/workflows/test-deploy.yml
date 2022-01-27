@@ -49,4 +49,4 @@ jobs:
             OptionName=AUTH_SALT,Value="${{ secrets.AUTH_SALT }}" \
             OptionName=SECURE_AUTH_SALT,Value="${{ secrets.SECURE_AUTH_SALT }}" \
             OptionName=LOGGED_IN_SALT,Value="${{ secrets.LOGGED_IN_SALT }}" \
-            OptionName=NONCE_SALT,Value="${{ secrets.NONCE_SALT }}" \
+            OptionName=NONCE_SALT,Value="${{ secrets.NONCE_SALT }}" 
