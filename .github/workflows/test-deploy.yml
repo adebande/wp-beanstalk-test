@@ -19,8 +19,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-1"
 
       - name: Upload package to S3 bucket
@@ -30,7 +30,7 @@ jobs:
         run: |
           aws elasticbeanstalk create-application-version \
           --application-name wp-beanstalk-test \
-          --source-bundle S3Bucket="my-awesome-app-deploy-andrey",S3Key="deploy_package.zip" \
+          --source-bundle S3Bucket="beanstalkpackage",S3Key="deploy_package.zip" \
           --version-label "ver-${{ github.sha }}" \
           --description "commit-sha-${{ github.sha }}"
 
