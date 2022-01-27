@@ -38,15 +38,15 @@ jobs:
         run: | 
             aws elasticbeanstalk update-environment --environment-name Wpbeanstalktest-env --version-label "ver-${{ github.sha }}" \
             --option-settings \
-            OptionName=RDS_DB_NAME,Value="${{ secrets.RDS_DB_NAME }}" \
-            OptionName=RDS_USERNAME,Value="${{ secrets.RDS_USERNAME }}" \
-            OptionName=RDS_PASSWORD,Value="${{ secrets.RDS_PASSWORD }}" \
-            OptionName=RDS_HOSTNAME,Value="${{ secrets.RDS_HOSTNAME }}" \
-            OptionName=AUTH_KEY,Value="${{ secrets.AUTH_KEY }}" \
-            OptionName=SECURE_AUTH_KEY,Value="${{ secrets.SECURE_AUTH_KEY }}" \
-            OptionName=LOGGED_IN_KEY,Value="${{ secrets.LOGGED_IN_KEY }}" \
-            OptionName=NONCE_KEY,Value="${{ secrets.NONCE_KEY }}" \
-            OptionName=AUTH_SALT,Value="${{ secrets.AUTH_SALT }}" \
-            OptionName=SECURE_AUTH_SALT,Value="${{ secrets.SECURE_AUTH_SALT }}" \
-            OptionName=LOGGED_IN_SALT,Value="${{ secrets.LOGGED_IN_SALT }}" \
-            OptionName=NONCE_SALT,Value="${{ secrets.NONCE_SALT }}" 
+            OptionName=RDS_DB_NAME,Value=${{ secrets.RDS_DB_NAME }} \
+            OptionName=RDS_USERNAME,Value=${{ secrets.RDS_USERNAME }} \
+            OptionName=RDS_PASSWORD,Value=${{ secrets.RDS_PASSWORD }} \
+            OptionName=RDS_HOSTNAME,Value=${{ secrets.RDS_HOSTNAME }} \
+            OptionName=AUTH_KEY,Value=${{ secrets.AUTH_KEY }} \
+            OptionName=SECURE_AUTH_KEY,Value=${{ secrets.SECURE_AUTH_KEY }} \
+            OptionName=LOGGED_IN_KEY,Value=${{ secrets.LOGGED_IN_KEY }} \
+            OptionName=NONCE_KEY,Value=${{ secrets.NONCE_KEY }} \
+            OptionName=AUTH_SALT,Value=${{ secrets.AUTH_SALT }} \
+            OptionName=SECURE_AUTH_SALT,Value=${{ secrets.SECURE_AUTH_SALT }} \
+            OptionName=LOGGED_IN_SALT,Value=${{ secrets.LOGGED_IN_SALT }} \
+            OptionName=NONCE_SALT,Value=${{ secrets.NONCE_SALT }} 
